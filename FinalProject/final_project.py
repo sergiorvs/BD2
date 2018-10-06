@@ -20,6 +20,7 @@ def insertar(nombre, elementos):
         archivo.write(elemento + ' ')
     archivo.write('\n')
     archivo.close()
+    print("insertado!")
 
 def borrar(nombre, condicion):
     ruta = 'BD/' + nombre + '.dbf'
@@ -54,6 +55,8 @@ def borrar(nombre, condicion):
     archivo.close()
     if flag:
         print("no existe la fila")
+    else :
+        print("borrado!")
     
 def select(nombre, condicion):
     ruta = 'BD/' + nombre + '.dbf'
@@ -120,9 +123,6 @@ def update(nombre, actualizacion, condicion):
         if datos[0] == actualizacion[0]:
             auxa = aux2-1
         cabecera = lineas[aux2]
-    
-    print("AUXA: ", auxa)
-    print("AUXC: ", auxc)
 
     archivo.seek(0)
     contLinea = 0
@@ -177,6 +177,7 @@ def update(nombre, actualizacion, condicion):
                     
     archivo.truncate()
     archivo.close()
+    print("actualizado!")
 
 
 while(1):
@@ -231,14 +232,9 @@ while(1):
         actu.append(comando[5])
         for i in range(7, size):
             cndn.append(comando[i])
-        print("lo que se acualizara es: ", actu)
-        print("la condicon es: ", cndn)
         update(nombreTabla, actu, cndn)
 
     else:
         print("comando no encontrado, pruebe otra vez")
 
 
-        
-
-    print("el comando es ", comando)
