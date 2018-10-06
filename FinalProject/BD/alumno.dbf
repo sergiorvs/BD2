@@ -1,0 +1,10 @@
+id int
+nombre varchar(20)
+edad int
+------
+1 '2' 1 
+8 'juancho' 3
+4 '2' 2
+5 'juancho' 3
+6 'juancho' 3
+7 'juancho' 4
