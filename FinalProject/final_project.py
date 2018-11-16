@@ -1,4 +1,5 @@
 from shutil import copyfile
+from random import randint, uniform,random
 """
     para copiar archivos se usa esa libreria con el comando
     copyfile(fuente_origen, fuente_destino)
@@ -21,6 +22,13 @@ def insertar(nombre, elementos):
     archivo.write('\n')
     archivo.close()
     print("insertado!")
+
+def insert_n(nombre, elementos, n):
+    for i in range(1, n+1):
+        elementos[0] = str(i)
+        elementos[1] = "'nombre_" + str(i) + "'"
+        elementos[2] = str(randint(0,100)) 
+        insertar(nombre, elementos)    
 
 def borrar(nombre, condicion):
     ruta = 'BD/' + nombre + '.dbf'
@@ -180,6 +188,19 @@ def update(nombre, actualizacion, condicion):
     print("actualizado!")
 
 
+
+print("COMANDOS:")
+print("create table [nombre] (columna tipo);")
+print("insert [tabla] ([..elementos..]);")
+print("delete [tabla] where [condicion]")
+print("select [tabla] where [condicion]")
+print("update [tabla] set [a_actualizar] where [condicion]")
+
+# elementos = []
+# elementos.append('0')
+# elementos.append('nombre_x')
+# elementos.append('0')
+# insert_n('estudiantes', elementos, 500)
 while(1):
     comando = input()
     comando = comando.split()
@@ -206,6 +227,16 @@ while(1):
         for i in range(2, size):
                 elms.append(comando[i][:-1])
         insertar(nombreTabla, elms)
+    
+    # for_insert [n] [nombre_tabla] [condicion] 
+    elif comando[0] == 'for_insert':
+        n = int(comando[1])
+        nombre = comando[2]
+        elms = []
+        comando[2] = comando[2][1:]
+        for i in range(3, size):
+                elms.append(comando[i][:-1])
+        insert_n(nombre, elms, n)
 
     # delete [tabla] where [condicion]
     elif comando[0] == 'delete': #considerar que la condicion va separada por ' '
