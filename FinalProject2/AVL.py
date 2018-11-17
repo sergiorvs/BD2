@@ -160,11 +160,7 @@ class AVL:
         if self.root is None:
             return True
         return False
-# elementos = []
-# elementos.append('0')
-# elementos.append('nombre_x')
-# elementos.append('0')
-# insert_n('estudiantes', elementos, 500)
+
     def preShow(self, curr_node):
         if curr_node is not None:
             self.preShow(curr_node.left)
