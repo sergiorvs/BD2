@@ -5,9 +5,7 @@
 from __future__ import print_function
 import pickle
 
-"""
-Declaramos la clase "Node", con cada una de sus propiedades.
-"""
+
 class Node:
     def __init__(self, label):
         self.label = label
@@ -15,6 +13,7 @@ class Node:
         self._left = None
         self._right = None
         self.height = 0
+        self.pointer = []
 
     @property
     def right(self):
@@ -55,17 +54,14 @@ class AVL:
         self.root = None
         self.size = 0
 
-        """
-        Operación de inserción para agregar nuevos nodos
-        al árbol.
-        """
-    def insert(self, value):
+    def insert(self, value, pointer=0):
         node = Node(value)
 
         if self.root is None:
             self.root = node
             self.root.height = 0
             self.size = 1
+            self.root.pointer.append(pointer)
         else:
             dad_node = None
             curr_node = self.root
@@ -75,7 +71,10 @@ class AVL:
 
                     dad_node = curr_node
 
-                    if node.label < curr_node.label:
+                    if node.label == curr_node.label:
+                        curr_node.pointer.append(pointer)
+                        break
+                    elif node.label < curr_node.label:
                         curr_node = curr_node.left
                     else:
                         curr_node = curr_node.right
@@ -86,9 +85,25 @@ class AVL:
                         dad_node.left = node
                     else:
                         dad_node.right = node
+                    node.pointer.append(pointer)
                     self.rebalance(node)
                     self.size += 1
                     break
+        
+    def find(self, data):
+        if self.root is not None:
+            curr_node = self.root
+            while not curr_node == data:
+                if curr_node.label == data:
+                    return curr_node
+                elif (curr_node.right is None) and (curr_node.left is None):
+                    return None
+                elif data < curr_node.label:
+                    curr_node = curr_node.left
+                else:
+                    curr_node = curr_node.right
+        return None
+
 
         # Operación de rotación
     def rebalance(self, node):
@@ -165,6 +180,7 @@ class AVL:
         if curr_node is not None:
             self.preShow(curr_node.left)
             print(curr_node.label, end=" ")
+            print(curr_node.pointer, end=" ")
             self.preShow(curr_node.right)
 
     def preorder(self, curr_node):
@@ -175,4 +191,7 @@ class AVL:
 
     def getRoot(self):
         return self.root
+    
+
+
 

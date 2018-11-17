@@ -10,3 +10,7 @@ if __name__ == '__main__':
     t.preorder(t.root)
     print("\n")
     
+
+    a = t.find('b')
+    # a = t.find(28)
+    print("after find: ", a.label)
