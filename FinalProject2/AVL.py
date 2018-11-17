@@ -56,6 +56,7 @@ class AVL:
 
     def insert(self, value, pointer=0):
         node = Node(value)
+        # print("THIS IS THE AVL", node, ">>>", value, ">>>", pointer)
 
         if self.root is None:
             self.root = node
@@ -68,9 +69,8 @@ class AVL:
 
             while True:
                 if curr_node is not None:
-
                     dad_node = curr_node
-
+                
                     if node.label == curr_node.label:
                         curr_node.pointer.append(pointer)
                         break
@@ -83,10 +83,11 @@ class AVL:
                     dad_node.height += 1
                     if node.label < dad_node.label:
                         dad_node.left = node
+                        dad_node.left.pointer.append(pointer)
                     else:
                         dad_node.right = node
-                    node.pointer.append(pointer)
-                    self.rebalance(node)
+                        dad_node.right.pointer.append(pointer)
+                    # self.rebalance(node)
                     self.size += 1
                     break
         
@@ -179,7 +180,7 @@ class AVL:
     def preShow(self, curr_node):
         if curr_node is not None:
             self.preShow(curr_node.left)
-            print(curr_node.label, end=" ")
+            print(curr_node.label, end="->")
             print(curr_node.pointer, end=" ")
             self.preShow(curr_node.right)
 

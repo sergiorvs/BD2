@@ -2,7 +2,7 @@ from AVL import *
 
 
 if __name__ == '__main__':
-    afile = open(r'tree.pkl', 'rb')
+    afile = open('idx_edad.pkl', 'rb')
     t = pickle.load(afile)
     afile.close()
     t.preShow(t.root)
@@ -11,6 +11,6 @@ if __name__ == '__main__':
     print("\n")
     
 
-    a = t.find('b')
+    a = t.find(17)
     # a = t.find(28)
-    print("after find: ", a.label)
+    print("after find: ", a.label, " ", a.pointer)
