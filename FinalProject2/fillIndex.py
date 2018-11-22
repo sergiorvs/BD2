@@ -8,6 +8,8 @@ import resource
 import sys
 import time
 
+#sys.setrecursionlimit(100000)
+
 
 def tablaNueva(nombre, columnas):
     ruta = 'BD/' + nombre + '.dbf'
