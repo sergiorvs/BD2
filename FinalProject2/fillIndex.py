@@ -4,6 +4,9 @@ from shutil import copyfile
 from random import randint, uniform,random
 
 import linecache
+import resource
+import sys
+import time
 
 
 def tablaNueva(nombre, columnas):
@@ -22,7 +25,7 @@ def insertar(nombre, elementos):
         archivo.write(elemento + ' ')
     archivo.write('\n')
     archivo.close()
-    print("insertado!")
+    # print("insertado!")
 
 def insert_n(nombre, elementos, n):
     for i in range(1, n+1):
@@ -81,6 +84,7 @@ def select(nombre, condicion):
 
 #create_idx [index_name] on [table_name] (parametro)
 #create_idx idx_edad on estudiantes edad
+#create_idx idx_id on estudiantes id
 def create_index(index_name, table_name, param):
     table = 'BD/' + table_name + '.dbf'
     archivo = open(table, 'r')
@@ -113,8 +117,9 @@ def create_index(index_name, table_name, param):
             # print("elemento insertado", arrLinea[aux])
             # print("the lines is: ",contLinea)
         contLinea += 1
-    
-    t.preShow(t.root)
+    print("arbol creado!")
+    # t.preShow(t.root)
+    sys.setrecursionlimit(50000)
     afile = open(index_name + '.pkl', 'wb')
     pickle.dump(t, afile)
     afile.close()
@@ -128,18 +133,20 @@ def selectWithIndex(index_name, table_name, condicion):
     node = t.find(int(condicion))
     pointers = node.pointer
     for i in pointers:
-        print(linecache.getline(table, i))
+        print(linecache.getline(table, i)[:-1])
 
 
 
 if __name__ == '__main__':
 
     print("COMANDOS:")
-    print("create table [nombre] (columna tipo);")
-    print("insert [tabla] ([..elementos..]);")
-    print("delete [tabla] where [condicion]")
+    print("create table [nombre] (columna tipo)")
+    print("for_insert [n] [nombre_tabla] [condicion]")
+    print("insert [tabla] ([..elementos..])")
+    print("create_idx [index_name] on [table_name] (parametro)")
+    print("select_idx [index_name] [table_name] where [param]")
     print("select [tabla] where [condicion]")
-    print("update [tabla] set [a_actualizar] where [condicion]")
+
 
     # elementos = []
     # elementos.append('0')
@@ -173,6 +180,7 @@ if __name__ == '__main__':
             for i in range(3, size):
                     elms.append(comando[i][:-1])
             insert_n(nombre, elms, n)
+            print("insertado!")
         
         # insert [tabla] ([..elementos..]);
         elif comando[0] == 'insert':
@@ -189,7 +197,11 @@ if __name__ == '__main__':
             index_name = comando[1]
             table_name = comando[3]
             param = comando[4]
+            start = time.time()
             create_index(index_name, table_name, param)
+            end = time.time()
+            print("indice creado correctamente!")
+            print("execution time: ", end - start)
         
         # select [tabla] where [condicion]
         elif comando[0] == 'select': #considerar que la condicion va separada por ' '
@@ -197,7 +209,10 @@ if __name__ == '__main__':
             cndn = []
             for i in range(3, size):
                 cndn.append(comando[i])
+            start = time.time()
             select(nombreTabla, cndn)
+            end = time.time()
+            print("execution time: ", end - start)
 
         #select_idx [index_name] [table_name] where [param]
         elif comando[0] == 'select_idx':
@@ -207,5 +222,8 @@ if __name__ == '__main__':
             # cndn = []
             # for i in range(4, size):
             #     cndn.append(comando[i])
+            start = time.time()
             selectWithIndex(index_name, table_name, cndn)
+            end = time.time()
+            print("execution time: ", end - start)
 

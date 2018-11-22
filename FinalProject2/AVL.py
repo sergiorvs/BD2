@@ -89,6 +89,7 @@ class AVL:
                         dad_node.right.pointer.append(pointer)
                     # self.rebalance(node)
                     self.size += 1
+                    # print(self.size)
                     break
         
     def find(self, data):
